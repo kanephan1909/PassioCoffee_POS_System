@@ -6,16 +6,16 @@ import { IoIosMore } from "react-icons/io";
 
 const HeaderNav = () => {
   return (
-    <header className="flex justify-between items-center py-2 px-2 bg-[#8CAA39]">
+    <header className="flex justify-between items-center py-2 px-5 bg-[#8CAA39]">
         {/* BUTTON */}
-        <div className="top-0 left-0 right-0 p-3.5 h-16 flex ">
-            <button className="flex items-center mr-10 justify-center text-[#f5f5f5] bg-[#A6CE39] w-[230px] rounded-[20px] font-bold" ><FaHome className="inline mr-2" size={20} /> Trang Chủ</button>
-            <button className="flex items-center mr-10 justify-center text-[#f5f5f5] bg-[#A6CE39] w-[230px] rounded-[20px] font-bold" ><IoFastFood className="inline mr-2" size={20} /> Đồ Ăn</button>
-            <button className="flex items-center mr-10 justify-center text-[#f5f5f5] bg-[#A6CE39] w-[230px] rounded-[20px] font-bold" ><FaCoffee className="inline mr-2" size={20} />Đồ Uống</button>
-            <button className="flex items-center mr-10 justify-center text-[#f5f5f5] bg-[#A6CE39] w-[230px] rounded-[20px] font-bold" ><IoIosMore className="inline mr-2" size={20} />Thêm</button>
+        <div className="top-0 left-0 right-0 p-3.5 h-[70px] flex ">
+            <button className="flex items-center mr-10 justify-center text-[#f5f5f5] bg-[#A6CE39] w-[250px] rounded-[20px] font-bold" ><FaHome className="inline mr-2" size={20} /> <p>Trang Chủ</p></button>
+            <button className="flex items-center mr-10 justify-center text-[#f5f5f5] w-[250px] rounded-[20px] font-bold" ><IoFastFood className="inline mr-2" size={20} /> <p>Đồ Ăn</p></button>
+            <button className="flex items-center mr-10 justify-center text-[#f5f5f5] w-[250px] rounded-[20px] font-bold" ><FaCoffee className="inline mr-2" size={20} /><p>Đồ Uống</p></button>
+            <button className="flex items-center mr-10 justify-center text-[#f5f5f5] w-[250px] rounded-[20px] font-bold" ><IoIosMore className="inline mr-2" size={20} /><p>Thêm</p></button>
         </div>
         {/* SEARCH */}
-        <div className="flex items-center gap-2 bg-[#A6CE39] rounded-[20px] px-5 py-2 w-[350px] text-lg ml-20">
+        <div className="flex items-center gap-2 bg-[#A6CE39] rounded-[15px] px-5 py-2 w-[435px] text-lg mr-20">
             <FaSearch className="text-[#f5f5f5]" />
             <input 
                 type="text" 
