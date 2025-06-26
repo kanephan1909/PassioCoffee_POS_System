@@ -21,11 +21,11 @@ const Greetings = () => {
     <div className="flex justify-between items-center px-8 mt-5">
         <div>
             <h1 className="text-[#f5f5f5] text-3xl font-semibold tracking-wide">Good Morning, KanePhan</h1>
-            <p className="text-[#ababab] text-lg">Give your best services for customers 😀</p>
+            <p className="text-[#cfcece] text-lg">Give your best services for customers 😀</p>
         </div>
         <div>
              <h1 className="text-[#f5f5f5] text-3xl font-bold tracking-wide w-[130px]">{formatTime(dateTime)}</h1>
-             <p className="text-[#ababab] text-lg">{formatDate(dateTime)}</p>
+             <p className="text-[#cfcece] text-lg">{formatDate(dateTime)}</p>
         </div>
     </div>
   )

@@ -4,6 +4,7 @@ import { BsCashCoin } from "react-icons/bs";
 import { GrInProgress } from "react-icons/gr";
 import MiniCard from "../components/home/MiniCard";
 import RecentOrders from "../components/home/RecentOrders";
+import PopularProducts from "../components/home/PopularProducts";
 
 const Home = () => {
   return (
@@ -29,8 +30,8 @@ const Home = () => {
       </div>
 
       {/* Right Content */}
-      <div className="flex-[2] bg-[#1a1a1a]">
-        {/* Bạn có thể đặt thông tin đơn hàng, thông báo, v.v tại đây */}
+      <div className="flex-[2]">
+        <PopularProducts />
       </div>
     </section>
   );
