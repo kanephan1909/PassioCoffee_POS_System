@@ -13,8 +13,8 @@ const OrderList = () => {
             <div>
                 <h1 className='text-[#f6b100] font-semibold border-2 border-[#f6b100] rounded-lg p-2'>Mã Món Hàng: 3</h1>
             </div>
-            <div className='flex flex-col items-start gap-1'>
-                <p className='text-green-600 px-4 ml-5'><FaCheckDouble className='inline mr-2'/>Sẵn Sàng</p>
+            <div className='flex flex-col items-end gap-1'>
+                <p className='text-green-600'><FaCheckDouble className='inline mr-2'/>Sẵn Sàng</p>
                 <p className='text-[#cfcece] text-sm'><FaCircle className='inline mr-1 text-green-600'/>Sẵn Sàng Phục Vụ Món</p>
             </div>
         </div>
