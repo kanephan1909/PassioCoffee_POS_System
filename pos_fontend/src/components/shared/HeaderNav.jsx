@@ -15,7 +15,7 @@ const HeaderNav = () => {
             <div className="top-0 left-0 right-0 p-3.5 h-[70px] flex ">
                 <button onClick={() => navigate("/")} className="flex items-center mr-10 justify-center text-[#f5f5f5] bg-[#A6CE39] w-[250px] rounded-[20px] font-bold" ><FaHome className="inline mr-2" size={20} /> <p>Trang Chủ</p></button>
                 <button onClick={() => navigate("/Orders")} className="flex items-center mr-10 justify-center text-[#f5f5f5] w-[250px] rounded-[20px] font-bold" ><IoFastFood className="inline mr-2" size={20} /> <p>Đơn Hàng</p></button>
-                <button onClick={() => navigate("/")} className="flex items-center mr-10 justify-center text-[#f5f5f5] w-[250px] rounded-[20px] font-bold" ><FaCoffee className="inline mr-2" size={20} /><p>Người Đặt</p></button>
+                <button onClick={() => navigate("/Tables")} className="flex items-center mr-10 justify-center text-[#f5f5f5] w-[250px] rounded-[20px] font-bold" ><FaCoffee className="inline mr-2" size={20} /><p>Người Đặt</p></button>
                 <button className="flex items-center mr-10 justify-center text-[#f5f5f5] w-[250px] rounded-[20px] font-bold" ><IoIosMore className="inline mr-2" size={20} /><p>Thêm</p></button>
             </div>
             {/* SEARCH */}

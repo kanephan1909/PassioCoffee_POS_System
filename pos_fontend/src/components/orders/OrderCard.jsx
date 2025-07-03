@@ -6,7 +6,7 @@ const OrderCard = () => {
     return (
         <div className='w-[430px] bg-[#8CAA39] p-4 rounded-lg mb-4'>
             <div className='flex items-center gap-5'>
-                <button className='bg-[#f6b100] p-3 text-x1 font-bold text-[#f5f5f5] rounded-lg'>AM</button>
+                <button className='bg-[#f6b100] p-3 text-x1 font-bold text-[#f5f5f5] rounded-lg'>Staff</button>
                 <div className='flex items-center justify-between w-[100%]'>
                     <div>
                         <h1 className='text-[#f5f5f5] text-lg font-semibold tracking-wide'>Nhat Khang</h1>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { popularDrinks } from '../../constants'
+import { popularDrinks } from '../../constants/popularDrinks'
 
 const PopularProducts = () => {
   return (
