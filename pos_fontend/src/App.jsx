@@ -7,13 +7,13 @@ function App() {
   return (
     <Router>
       <Header />
-      <HeaderNav />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/orders" element={<Orders />} />
         <Route path="/tables" element={<Tables />} />
       </Routes>
+      <HeaderNav />
     </Router>
   );
 }

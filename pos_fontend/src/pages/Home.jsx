@@ -1,27 +1,26 @@
 import React from "react";
 import Greetings from "../components/home/Greetings";
-import { BsCashCoin } from "react-icons/bs";
-import { GrInProgress } from "react-icons/gr";
+import { AlertCircle , TrendingUp } from 'lucide-react'
 import MiniCard from "../components/home/MiniCard";
 import RecentOrders from "../components/home/RecentOrders";
 import PopularProducts from "../components/home/PopularProducts";
 
 const Home = () => {
   return (
-    <section className="bg-[#71863A] h-[calc(100vh-210px)] overflow-hidden flex gap-3">
+    <section className="bg-[#71863A] h-[calc(100vh-12.5rem)] overflow-hidden flex gap-3" style={{background: 'linear-gradient(135deg, #A6CE39 0%, #8BC34A 25%, #7CB342 50%, #689F38 75%, #558B2F 100%)'}}>
       {/* Left Content */}
       <div className="flex-[4]">
         <Greetings />
         <div className="flex items-center w-full gap-3 px-8 mt-8">
           <MiniCard
             title="Doanh Thu Bán Hàng"
-            icon={<BsCashCoin />}
+            icon={<TrendingUp  />}
             number={512}
             footerNum={1.6}
           />
           <MiniCard
             title="Đang Xử Lí"
-            icon={<GrInProgress />}
+            icon={<AlertCircle  />}
             number={12}
             footerNum={3.6}
           />
