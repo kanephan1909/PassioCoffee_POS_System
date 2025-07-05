@@ -1,7 +1,8 @@
 ﻿# PassioCoffee_POS_System
 
-![image](https://github.com/user-attachments/assets/236a03cc-3f12-4e28-86f7-115ebb6ad89f)
+![image](https://github.com/user-attachments/assets/21c9e00f-8a63-44c5-978e-ae84f036999c)
 
-![image](https://github.com/user-attachments/assets/1f7335c2-c980-4861-8298-db8e3973b9f5)
+![image](https://github.com/user-attachments/assets/9e34b4d0-b63e-48a6-b4e6-7816983afb62)
 
-![image](https://github.com/user-attachments/assets/06b1f91c-7620-4ff9-bc58-6735cdac44c5)
+![image](https://github.com/user-attachments/assets/1cb8072f-7a9c-4b24-a24a-93f342eaeba5)
+
