@@ -14,7 +14,7 @@ const PopularProducts = () => {
                 </a>
             </div>
 
-            <div className='overflow-y-scroll h-[600px] scrollbar-hide'>
+            <div className='overflow-y-scroll h-[720px] scrollbar-hide'>
                 {
                     popularDrinks.map((items) =>{
                         return (

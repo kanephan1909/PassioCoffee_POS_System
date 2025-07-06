@@ -1,4 +1,3 @@
-import HeaderNav from "../components/shared/HeaderNav"
 import OrderCard from "../components/orders/OrderCard"
 import BackButton from "../components/shared/BackButton"
 import { useState } from "react"
@@ -8,7 +7,7 @@ const Orders = () => {
   const [status, setStatus] = useState("all");
 
   return (
-    <section className="bg-[#71863A] h-[calc(100vh-12.5rem)] overflow-hidden" style={{background: 'linear-gradient(135deg, #A6CE39 0%, #8BC34A 25%, #7CB342 50%, #689F38 75%, #558B2F 100%)'}}>
+    <section className="bg-[#71863A] h-[calc(100vh-12rem)] overflow-hidden" style={{background: 'linear-gradient(135deg, #A6CE39 0%, #8BC34A 25%, #7CB342 50%, #689F38 75%, #558B2F 100%)'}}>
       <div className="flex items-center justify-between px-10 py-4 mt-2">
         <div className="flex items-center gap-4">
           <BackButton />
@@ -22,7 +21,7 @@ const Orders = () => {
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-6 px-10 py-4 overflow-y-scroll scrollbar-hide h-[calc(100vh-5rem-15.5rem)]">
+      <div className="flex flex-wrap gap-6 px-10 py-4 overflow-y-scroll scrollbar-hide h-[calc(100vh-5rem-14.5rem)]">
           <OrderCard />
           <OrderCard />
           <OrderCard />

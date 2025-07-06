@@ -5,7 +5,7 @@ import { FaCircle } from 'react-icons/fa'
 
 const OrderCard = () => {
     return (
-        <div className='w-[440px] p-4 rounded-lg bg-white bg-opacity-15 backdrop-blur-sm border border-white border-opacity-30 shadow-xl hover:shadow-2xl transition-all cursor-pointer group'>
+        <div className='w-[490px] p-4 rounded-lg bg-white bg-opacity-15 backdrop-blur-sm border border-white border-opacity-30 shadow-xl hover:shadow-2xl transition-all cursor-pointer group'>
             <div className='flex items-center gap-5'>
                 <button className='p-3 text-x1 font-bold text-[#f5f5f5] rounded-lg' style={{
                     borderColor: '#FFA726',

@@ -5,7 +5,7 @@ import OrderList from './OrderList'
 const RecentOrders = () => {
     return (
         <div className='px-8 mt-6'>
-            <div className='bg-white bg-opacity-15 backdrop-blur-sm w-full h-[360px] rounded-lg border border-white border-opacity-30 shadow-sm hover:shadow-xl transition-all cursor-pointer group'>
+            <div className='bg-white bg-opacity-15 backdrop-blur-sm w-full h-[480px] rounded-lg border border-white border-opacity-30 shadow-sm hover:shadow-xl transition-all cursor-pointer group'>
                 <div className='flex justify-between items-center px-6 py-4'>
                     <h1 className='text-[#f5f5f5] text-lg font-semibold tracking-wide'>Đơn Hàng Gần Đây</h1>
                     <a href="" className='text-green-300 text-sm font-semibold'>Xem Tất Cả</a>
