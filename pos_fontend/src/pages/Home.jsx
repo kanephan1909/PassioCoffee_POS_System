@@ -7,7 +7,7 @@ import PopularProducts from "../components/home/PopularProducts";
 
 const Home = () => {
   return (
-    <section className="h-[calc(100vh-12rem)] overflow-hidden flex gap-3" style={{background: 'linear-gradient(135deg, #A6CE39 0%, #8BC34A 25%, #7CB342 50%, #689F38 75%, #558B2F 100%)'}}>
+    <section className="h-[calc(100vh-12rem)] overflow-hidden flex gap-3 bg-gray-50">
       {/* Left Content */}
       <div className="flex-[4]">
         <Greetings />
