@@ -9,15 +9,15 @@ const Tables = () => {
     const [status, setStatus] = useState("all");
 
     return (
-         <section className="bg-[#71863A] h-[calc(100vh-12rem)] overflow-hidden" style={{background: 'linear-gradient(135deg, #A6CE39 0%, #8BC34A 25%, #7CB342 50%, #689F38 75%, #558B2F 100%)'}}>
+         <section className="bg-gray-50 h-[calc(100vh-12rem)] overflow-hidden" >
       <div className="flex items-center justify-between px-10 py-4 mt-2">
         <div className="flex items-center gap-4">
           <BackButton />
-          <h1 className="text-[#f5f5f5] text-2xl font-bold tracking-wider">Bàn Đặt</h1>
+          <h1 className="text-gray-900 text-2xl font-bold tracking-wider">Bàn Đặt</h1>
         </div>
         <div className="flex items-center justify-around gap-4">
-          <button onClick={() => setStatus("all")} className={`text-white opacity-80 text-lg ${status === "all" && "bg-[#a6ce3986] rounded-lg px-3 py-2"} rounded-lg px-3 py-2 font-semibold`}>Tất Cả</button>
-          <button onClick={() => setStatus("booked")} className={`text-white opacity-80 text-lg ${status === "booked" && "bg-[#a6ce3986] rounded-lg px-3 py-2"} rounded-lg px-3 py-2 font-semibold`}>Đã Đặt</button>
+          <button onClick={() => setStatus("all")} className={`text-gray-900 text-lg ${status === "all" && "bg-[#A6CE39] rounded-lg px-3 py-2"} rounded-lg px-3 py-2 font-semibold`}>Tất Cả</button>
+          <button onClick={() => setStatus("booked")} className={`text-gray-900 text-lg ${status === "booked" && "bg-[#A6CE39] rounded-lg px-3 py-2"} rounded-lg px-3 py-2 font-semibold`}>Đã Đặt</button>
         </div>
       </div>
 
