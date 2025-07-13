@@ -21,7 +21,7 @@ const Tables = () => {
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-5 pl-10 pt-2 overflow-y-scroll scrollbar-hide h-[calc(100vh-5rem-14.5rem)]">
+      <div className="flex flex-wrap gap-5 pl-10 pt-2 overflow-y-scroll scrollbar-hide h-[calc(100vh-5rem-14rem)]">
           {
             tables.map((table) => {
                 return(

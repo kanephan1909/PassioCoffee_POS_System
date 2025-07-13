@@ -64,18 +64,26 @@ const MenuContainer = () => {
                 }
             </div>
 
-            <hr className='border-[#f5f5f5] opacity-50 border-t-2 mt-4' />
+            <hr className='border-[#6e6e6e] opacity-50 border-t-2 mt-4' />
 
-            <div className='grid grid-cols-4 gap-4 px-10 py-4 w-[100%] overflow-y-scroll scrollbar-hide h-[calc(100vh-30rem)]'>
+            <div className='grid grid-cols-4 gap-4 px-10 py-4 w-[100%] overflow-y-scroll scrollbar-hide h-[calc(100vh-35rem)]'>
                 {
                     selected?.items.map((menu) => {
                         return (
-                            <div key={menu.id} className='flex flex-col items-start justify-between p-4 rounded-lg h-[150px] bg-[#A6CE39] bg-opacity-50 backdrop-blur-sm border border-white border-opacity-30 shadow-xl hover:shadow-2xl transition-all cursor-pointer'
+                            <div
+                                key={menu.id}
+                                className='flex flex-col items-start justify-between p-4 rounded-lg h-[150px]
+                                hover:bg-passio backdrop-blur-sm border border-white border-opacity-30
+                                shadow-xl hover:shadow-2xl transition-all cursor-pointer group'
                             >
-                                <h1 className='text-white text-lg font-semibold'>{menu.name}</h1>
-                                <p className='text-white text-lg font-bold'>
+                                <h1 className='text-gray-900 text-lg font-semibold group-hover:text-white transition-colors'>
+                                    {menu.name}
+                                </h1>
+
+                                <p className='text-gray-900 text-lg font-bold group-hover:text-white transition-colors'>
                                     S: {menu.price?.S} | M: {menu.price?.M} | L: {menu.price?.L}
                                 </p>
+
                                 <div className='flex items-center justify-between w-full'>
 
                                     <div className="flex gap-2 my-1">
@@ -83,28 +91,34 @@ const MenuContainer = () => {
                                             <button
                                                 key={size}
                                                 onClick={() => handleSizeChange(menu.id, size)}
-                                                className={`px-2 py-1 rounded text-sm ${sizeSelections[menu.id] === size
-                                                    ? "bg-green-500 text-white"
-                                                    : "bg-white bg-opacity-20 text-white"
+                                                className={`px-2 py-1 rounded text-sm transition-colors ${sizeSelections[menu.id] === size
+                                                        ? "bg-passio text-white group-hover:bg-passio"
+                                                        : "text-gray-900 bg-gray-400 bg-opacity-10 group-hover:text-gray-900"
                                                     }`}
                                             >
                                                 {size}
                                             </button>
                                         ))}
                                     </div>
-                                    <div className='flex items-center justify-between border bg-white bg-opacity-15 px-2 py-1 rounded-lg gap-6 z-20'>
+
+                                    <div className='flex items-center justify-between border bg-gray-400 bg-opacity-10 px-2 py-1 rounded-lg gap-6 z-20'>
                                         <button
                                             onClick={() => decrement(menu.id)}
-                                            className='text-green-200 text-2xl'>
+                                            className='text-passio text-2xl group-hover:text-lime-200 transition-colors'
+                                        >
                                             &minus;
                                         </button>
-                                        <span className='text-white'>{menu.id === itemId ? itemCount : "0"}</span>
+                                        <span className='text-gray-900 group-hover:text-white transition-colors'>
+                                            {menu.id === itemId ? itemCount : "0"}
+                                        </span>
                                         <button
                                             onClick={() => increment(menu.id)}
-                                            className='text-green-200 text-2xl'>
+                                            className='text-passio text-2xl group-hover:text-lime-200 transition-colors'
+                                        >
                                             &#43;
                                         </button>
                                     </div>
+
                                 </div>
                             </div>
                         )
