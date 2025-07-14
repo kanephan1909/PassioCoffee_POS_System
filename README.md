@@ -1,4 +1,4 @@
-<img width="1919" height="1079" alt="Screenshot 2025-07-14 183551" src="https://github.com/user-attachments/assets/29f672d9-1d88-4376-bcb9-ebe993587bab" /># 🍽️ **Passio Coffee POS System**  
+## 🍽️ **Passio Coffee POS System**  
 
 Một Hệ Thống POS Passio Coffee đầy đủ tính năng được xây dựng bằng MERN Stack để tối ưu hóa hoạt động quán cà phê, nâng cao trải nghiệm khách hàng và quản lý đơn hàng, thanh toán, kho hàng một cách dễ dàng.
 
