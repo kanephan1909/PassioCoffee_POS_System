@@ -28,7 +28,7 @@ Một Hệ Thống POS Passio Coffee đầy đủ tính năng được xây dự
 | 🔙 **Backend**           | Node.js, Express.js           |
 | 🗄️ **Database**          | MongoDB                       |
 | 🔐 **Authentication**    | JWT, bcrypt                   |
-| 💳 **Payment Integration**| Razorpay    |
+| 💳 **Payment Integration**| ZaloPay    |
 | 📊 **State Management**   | Redux Toolkit                 |
 | ⚡ **Data Fetching & Caching** | React Query            |
 | 🔗 **APIs**              | RESTful APIs                   |
