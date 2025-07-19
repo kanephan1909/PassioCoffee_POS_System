@@ -44,7 +44,7 @@ Một Hệ Thống POS Passio Coffee đầy đủ tính năng được xây dự
 
 ## 🎨 **Design Inspiration**
 
-- 💡 **UI/UX Design :** [Figma Design](...https://www.figma.com/design/Dg5UXGeIjuNwy08NGGNb6N/UI-Passio?node-id=0-1&m=dev&t=j3RxqNbxr2K8xbQ1-1...)
+- 💡 **UI/UX Design :** [Figma Design](https://www.figma.com/design/Dg5UXGeIjuNwy08NGGNb6N/UI-Passio?node-id=0-1&m=dev&t=j3RxqNbxr2K8xbQ1-1)
 
 ---
 
