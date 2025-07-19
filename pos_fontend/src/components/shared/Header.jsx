@@ -34,8 +34,8 @@ const Header = () => {
           <FaUserCircle className="text-[#A6CE39] text-4xl" />
         </div>
         <div className="flex flex-col items-start">
-          <h1 className="text-md text-gray-900 font-semibold">Kane Phan</h1>
-          <p className="text-xs text-gray-500 opacity-70 font-medium">Admin</p>
+          <h1 className="text-md text-gray-900 font-semibold">Kane Phan 1</h1>
+          <p className="text-xs text-gray-500 opacity-70 font-medium">Staff</p>
         </div>
       </div>
     </header>
