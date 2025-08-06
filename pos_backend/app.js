@@ -13,8 +13,14 @@ connectDB();
 app.use(express.json()); //Đảm bảo dòng này đứng trước route
 app.use(cookieParser())
 
-//Routes
+//Root EndPoint
+app.get("/", (req, res) => {
+  res.json({message: "Hello from POS Server!"})
+})
+
+// Orther EndPoint
 app.use("/api/user", require("./routes/userRoute"));
+app.use("/api/order", require("./routes/orderRoute"));
 
 //Error Handling
 app.use((err, req, res, next) => {
