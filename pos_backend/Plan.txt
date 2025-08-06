@@ -1,0 +1,20 @@
+[+] Create Project Directory
+[+] Create a NPM Project and Install all dependencies
+- dependencies
+    - express mongoose dotenv
+    - Dev dependencies
+        -nodemon 
+[+] Create express server - app.js
+[-] Folder Structure
+[-] Database Setup
+[-] Error Handling Setup (Global Error Handler)
+[-] API Creation
+    - Auth API's
+        - Register
+        - Login
+    - Order API's
+        - GET, POST Order
+    - Table API's
+        - GET, POST Table
+    - Category + Items API's(Optional)
+    - Payment Related API's (ZaloPay)
