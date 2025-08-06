@@ -5,14 +5,14 @@
     - Dev dependencies
         -nodemon 
 [+] Create express server - app.js
-[-] Folder Structure
-[-] Database Setup
+[+] Folder Structure
+[+] Database Setup
 [-] Error Handling Setup (Global Error Handler)
-[-] API Creation
-    - Auth API's
+[+] API Creation
+    [+] Auth API's
         - Register
         - Login
-    - Order API's
+    [+] Order API's
         - GET, POST Order
     - Table API's
         - GET, POST Table
