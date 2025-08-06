@@ -1,0 +1,94 @@
+const createHttpError = require("http-errors");
+const User = require("../models/userModel");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const config = require("../config/config");
+
+const register = async (req, res, next) => {
+  try {
+    const { name, phone, email, password, role } = req.body;
+
+    if (!name || !phone || !email || !password || !role) {
+      const error = createHttpError(400, "Tất cả các trường đều bắt buộc!");
+      return next(error);
+    }
+
+    const isUserPresent = await User.findOne({ email });
+    if (isUserPresent) {
+      const error = createHttpError(400, "Người dùng đã tồn tại!");
+      return next(error);
+    }
+
+    const user = { name, phone, email, password, role };
+    const newUser = new User(user); 
+    await newUser.save(); 
+
+    const userToReturn = newUser.toObject();
+    delete userToReturn.password;
+
+    res.status(201).json({
+      success: true,
+      message: "Đăng ký người dùng thành công!!!",
+      data: userToReturn,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      const error = createHttpError(400, "Tất cả các trường đều bắt buộc!");
+      return next(error);
+    }
+
+    const isUserPresent = await User.findOne({ email });
+    if (!isUserPresent) {
+      const error = createHttpError(400, "Người dùng không tồn tại!");
+      return next(error);
+    }
+
+    const isMatch = await bcrypt.compare(password, isUserPresent.password);
+    if (!isMatch) {
+      const error = createHttpError(401, "Mật khẩu không đúng!");
+      return next(error);
+    }
+
+    const accessToken = jwt.sign(
+      { _id: isUserPresent._id },
+      config.accessTokenSecret,
+      { expiresIn: "1d" }
+    );
+
+    res.cookie("accessToken", accessToken, {
+      maxAge: 1000 * 60 * 60 * 24 * 30,
+      httpOnly: true,
+      sameSite: "none",
+      secure: true,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Đăng nhập thành công!",
+      data: isUserPresent,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+const getUserDate = async (req, res, next) => {
+  try {
+    
+    const user = await User.findById(req.user._id);
+    res.status(200).json({success: true, date: user});
+
+  } catch (error) {
+    next(error)
+  }
+}
+
+module.exports = { register, login, getUserDate };
