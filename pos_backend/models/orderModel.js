@@ -28,6 +28,7 @@ const orderSchema = new mongoose.Schema(
         price: { type: Number, required: true },
       },
     ],
+    table: { type: mongoose.Schema.Types.ObjectId, ref: "Table"}
   },
   { timestamps: true }
 );
