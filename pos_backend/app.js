@@ -21,6 +21,8 @@ app.get("/", (req, res) => {
 // Orther EndPoint
 app.use("/api/user", require("./routes/userRoute"));
 app.use("/api/order", require("./routes/orderRoute"));
+app.use("/api/table", require("./routes/tableRoute"));
+
 
 //Error Handling
 app.use((err, req, res, next) => {
