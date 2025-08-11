@@ -91,4 +91,14 @@ const getUserDate = async (req, res, next) => {
   }
 }
 
-module.exports = { register, login, getUserDate };
+const logout = async (req, res ,next ) => {
+  try {
+    res.clearCookie('accessToken');
+    res.status(200).json({success: true, message: "Đăng Xuất Thành Công!!!"})
+  } catch (error) {
+    next(error)
+  }
+}
+
+
+module.exports = { register, login, getUserDate , logout};

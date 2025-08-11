@@ -3,6 +3,7 @@ const express = require("express");
 const connectDB = require("./config/database");
 const config = require("./config/config");
 const cookieParser = require("cookie-parser");
+const cors = require("cors")
 const app = express();
 
 const PORT = config.port;
@@ -10,6 +11,10 @@ const PORT = config.port;
 connectDB();
 
 //Middlewares
+app.use(cors({
+  credentials: true,
+  origin: ['http://localhost:5173']
+}))
 app.use(express.json()); //Đảm bảo dòng này đứng trước route
 app.use(cookieParser())
 
