@@ -1,6 +1,15 @@
 import React, { useState } from "react";
+import { register } from "../../https";
+import { useMutation } from "@tanstack/react-query";
+import { enqueueSnackbar } from "notistack";
+import { useNavigate } from "react-router-dom"
+import { useDispatch } from "react-redux"
 
-const Register = () => {
+
+const Register = ({setIsRegister}) => {
+
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -19,8 +28,31 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
+    registerMutation.mutate(formData);
   };
+
+  const registerMutation = useMutation({
+    mutationFn: (reqData) => register(reqData),
+    onSuccess: (res) => {
+      const { data } = res;
+      enqueueSnackbar(data.message, { variant: "success" });
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        password: "",
+        role: "",
+      });
+
+      setTimeout(() => {
+        setIsRegister(false)
+      }, 1500) 
+    },
+    onError: (error) => {
+      const { response } = error;
+      enqueueSnackbar(response.data.message, { variant: "error" });
+    }
+  })
 
   return (
     <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-6 mt-8">
@@ -106,11 +138,10 @@ const Register = () => {
               key={role}
               type="button"
               onClick={() => handleRoleSelection(role)}
-              className={`border px-4 py-3 w-full rounded-lg ${
-                formData.role === role
-                  ? "bg-[#A5C83B] text-white border-[#A5C83B]"
-                  : "border-gray-300 text-gray-700"
-              }`}
+              className={`border px-4 py-3 w-full rounded-lg ${formData.role === role
+                ? "bg-[#A5C83B] text-white border-[#A5C83B]"
+                : "border-gray-300 text-gray-700"
+                }`}
             >
               {role}
             </button>

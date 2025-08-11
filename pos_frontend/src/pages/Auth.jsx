@@ -38,7 +38,7 @@ const Auth = () => {
         </h2>
 
         {/* Components */}
-        {isRegister ? <Register /> : <Login />}
+        {isRegister ? <Register setIsRegister={setIsRegister} /> : <Login />}
 
 
         <div className="flex justify-center mt-6">
@@ -50,7 +50,6 @@ const Auth = () => {
             >
               {isRegister ? "Đăng Nhập" : "Đăng Ký"}
             </span>
-
           </p>
         </div>
       </div>
