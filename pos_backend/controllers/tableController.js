@@ -4,7 +4,7 @@ const createHttpError = require("http-errors");
 
 const addTable = async (req, res, next) => {
   try {
-    const { tableNo, status, currentOrder } = req.body;
+    const { tableNo, status, currentOrder , seats } = req.body;
 
     if (!tableNo) {
       return next(createHttpError(400, "Số bàn là bắt buộc"));
@@ -15,7 +15,7 @@ const addTable = async (req, res, next) => {
       return next(createHttpError(400, "Bàn đã tồn tại"));
     }
 
-    const newTable = new Table({ tableNo, status, currentOrder });
+    const newTable = new Table({ tableNo, status, currentOrder , seats });
     await newTable.save();
 
     res.status(201).json({
@@ -31,7 +31,10 @@ const addTable = async (req, res, next) => {
 
 const getTables = async (req, res, next) => {
   try {
-    const tables = await Table.find().populate("currentOrder"); 
+    const tables = await Table.find().populate({
+      path: "currentOrder",
+      select: "customerDetails"
+    }); 
     res.status(200).json({
       success: true,
       message: "Lấy danh sách bàn thành công",

@@ -12,6 +12,10 @@ const tableSchema = new mongoose.Schema({
     enum: ["available", "occupied", "reserved"],
     default: "available"
   },
+  seats: {
+    type: Number,
+    required: true
+  },
   currentOrder: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Order"
