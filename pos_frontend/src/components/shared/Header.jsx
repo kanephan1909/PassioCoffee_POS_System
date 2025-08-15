@@ -1,7 +1,9 @@
 import logo from "../../assets/images/logo-3.png";
 import { useNavigate } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
-import { Search, Bell, Table , ShoppingCart, Home } from 'lucide-react';
+import { Search, Table, ShoppingCart, Home } from 'lucide-react';
+import { FaBell } from "react-icons/fa";
+import { MdDashboard } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { LuLogOut } from "react-icons/lu";
 import { useMutation } from "@tanstack/react-query";
@@ -20,7 +22,7 @@ const Header = () => {
     onSuccess: (data) => {
       console.log(data);
       dispatch(removeUser());
-      navigate("/auth"); 
+      navigate("/auth");
     },
     onError: (erorr) => {
       console.log(erorr);
@@ -49,8 +51,15 @@ const Header = () => {
 
       {/* LOGGER USER DETAILS */}
       <div className="flex items-center gap-4">
-        <div className="rounded-[15px] p-3 cursor-pointer" >
-          <Bell className="text-[#A6CE39] text-4xl" />
+        {
+          userData.role === "admin" && (
+            <div onClick={() => navigate("/dashboard")} className="bg-gray-50 rounded-[15px] p-3 cursor-pointer" >
+              <MdDashboard className="text-[#A6CE39] text-3xl" />
+            </div>
+          )
+        }
+        <div className="bg-gray-50 rounded-[15px] p-3 cursor-pointer" >
+          <FaBell className="text-[#A6CE39] text-3xl" />
         </div>
         <div className="flex items-center gap-3 cursor-pointer">
           <FaUserCircle className="text-[#A6CE39] text-4xl" />
@@ -59,7 +68,7 @@ const Header = () => {
           <h1 className="text-md text-gray-900 font-semibold">{userData.name || "User"}</h1>
           <p className="text-xs text-gray-500 opacity-70 font-medium">{userData.role || "N/A"}</p>
         </div>
-        <LuLogOut onClick={handleLogout} className="text-[#A6CE39] text-4xl ml-2 cursor-pointer" />
+        <LuLogOut onClick={handleLogout} className="text-[#A6CE39] text-3xl ml-2 cursor-pointer" />
       </div>
     </header>
   )
