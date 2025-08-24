@@ -14,7 +14,7 @@ const addOrder = async (req, res, next) => {
 // Lấy 1 đơn hàng theo ID
 const getOrder = async (req, res, next) => {
   try {
-    const order = await Order.findById(req.params.id);
+    const order = await Order.findById(req.params.id).populate("table");
     if (!order) {
       return res.status(404).json({ success: false, message: "Không tìm thấy đơn hàng" });
     }
@@ -27,7 +27,7 @@ const getOrder = async (req, res, next) => {
 // Lấy tất cả đơn hàng
 const getOrders = async (req, res, next) => {
   try {
-    const orders = await Order.find().sort({ createdAt: -1 }); // Sắp xếp mới nhất lên đầu
+    const orders = await Order.find().sort({ createdAt: -1 }).populate("table"); // Sắp xếp mới nhất lên đầu
     res.status(200).json({ success: true, data: orders });
   } catch (error) {
     next(error);

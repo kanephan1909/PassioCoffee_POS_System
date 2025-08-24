@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const orderSchema = new mongoose.Schema(
   {
-    customerDetail: {
+    customerDetails: {
       name: { type: String, required: true },
       phone: { type: String, required: true },
       guests: { type: Number, required: true },
@@ -28,7 +28,7 @@ const orderSchema = new mongoose.Schema(
         price: { type: Number, required: true },
       },
     ],
-    table: { type: mongoose.Schema.Types.ObjectId, ref: "Table"}
+    table: { type: mongoose.Schema.Types.ObjectId, ref: "Table" },
   },
   { timestamps: true }
 );
