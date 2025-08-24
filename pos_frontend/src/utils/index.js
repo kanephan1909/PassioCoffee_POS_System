@@ -47,3 +47,12 @@ export const formatDate = (date) => {
     "0"
   )}, ${date.getFullYear()}`;
 };
+
+// Hàm format lại tiền VND
+export const formatVND = (price) => {
+  return (price * 1000).toLocaleString("vi-VN", {
+    style: "currency",
+    currency: "VND"
+  });
+};
+

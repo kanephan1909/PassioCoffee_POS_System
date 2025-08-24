@@ -29,8 +29,9 @@ const HeaderNav = () => {
     const closeModal = () => setIsModalOpen(false);
 
     // tạo customer
-    const [name, setName] = useState();
-    const [phone, setPhone] = useState();
+    const [name, setName] = useState("");
+    const [phone, setPhone] = useState("");
+
 
     // Hàm kiểm tra tab hiện tại
     const isActive = (path) => location.pathname === path;

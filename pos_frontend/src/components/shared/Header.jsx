@@ -52,7 +52,7 @@ const Header = () => {
       {/* LOGGER USER DETAILS */}
       <div className="flex items-center gap-4">
         {
-          userData.role === "admin" && (
+          userData.role === "Admin" && (
             <div onClick={() => navigate("/dashboard")} className="bg-gray-50 rounded-[15px] p-3 cursor-pointer" >
               <MdDashboard className="text-[#A6CE39] text-3xl" />
             </div>

@@ -8,21 +8,23 @@ import { enqueueSnackbar } from 'notistack';
 const Tables = () => {
   const [status, setStatus] = useState("all");
 
-  const { data: resData, isError, isLoading } = useQuery({
+  useEffect(() => {
+    document.title = "POS | Tables"
+  }, [])
+
+  const { data: resData, isError } = useQuery({
     queryKey: ["tables"],
-    queryFn: getTables,
+    queryFn: async () => {
+      return await getTables();
+    },
     placeholderData: keepPreviousData,
   });
 
-  useEffect(() => {
-    if (isError) {
-      enqueueSnackbar("Có vài thứ đang sai", { variant: "error" });
-    }
-  }, [isError]);
+  if (isError) {
+    enqueueSnackbar("Something went wrong!", { variant: "error" })
+  }
 
   console.log(resData);
-
-  if (isLoading) return <div>Đang tải...</div>;
 
   const tables = resData?.data?.data || [];
 
@@ -49,7 +51,7 @@ const Tables = () => {
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-5 pl-10 pt-2 overflow-y-scroll scrollbar-hide h-[calc(100vh-5rem-14rem)]">
+      <div className="grid grid-cols-5 gap-3 px-16 py-4 h-[700px] overflow-y-scroll scrollbar-hide">
         {tables
           .filter(table => status === "all" || table.status === status)
           .map(table => (
@@ -58,7 +60,7 @@ const Tables = () => {
               id={table._id}
               name={table.tableNo}
               status={table.status}
-              initials={table?.currentOrder?.customerDeatils.name}
+              initials={table?.currentOrder?.customerDetails.name}
               seats={table.seats}
             />
           ))}

@@ -10,12 +10,20 @@ const api = axios.create({
 })
 
 
-//API EndPoint
+// Auth EndPoint
 export const login = (data) => api.post("/api/user/login", data);
 export const register = (data) => api.post("/api/user/register", data)
 export const getUserData = () => api.get("/api/user");
 export const logout = () => api.post("/api/user/logout");
 
-export const addTable = (data) => api.post("/api/table/", data);
 
-export const getTables = (data) => api.get("/api/table/", data);
+// Table EndPoint
+export const addTable = (data) => api.post("/api/table/", data);
+export const getTables = () => api.get("/api/table");
+
+// Payment EndPoint
+
+export const createOrderZalopay = (data) => api.post("/api/payment/create-order", data);
+export const verifyPaymentZalopay = (data) => api.post("/api/payment/verify-payment", data);
+
+

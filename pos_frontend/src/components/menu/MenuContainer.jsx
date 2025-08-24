@@ -4,6 +4,7 @@ import { GrRadialSelected } from "react-icons/gr";
 import { useDispatch } from 'react-redux';
 import { addItems } from '../../redux/slices/cartSlice';
 import { FaShoppingCart } from 'react-icons/fa';
+import { enqueueSnackbar } from 'notistack';
 
 const MenuContainer = () => {
     const [selectedMenu, setSelectedMenu] = useState(menus[0]);
@@ -44,12 +45,12 @@ const MenuContainer = () => {
         const quantity = itemCounts[item.id] || 0;
 
         if (!size) {
-            alert("Vui lòng chọn size trước khi thêm vào giỏ!");
+            enqueueSnackbar("Vui lòng chọn size trước khi thêm vào giỏ!", { variant: "error" });
             return;
         }
 
         if (quantity === 0) {
-            alert("Vui lòng chọn số lượng!");
+            enqueueSnackbar("Vui lòng chọn số lượng", { variant: "error" });
             return;
         }
 
@@ -126,11 +127,10 @@ const MenuContainer = () => {
                                 <button
                                     key={size}
                                     onClick={() => handleSizeChange(item.id, size)}
-                                    className={`px-2 py-1 rounded group-hover:text-white text-sm transition-colors ${
-                                        sizeSelections[item.id] === size
-                                            ? "bg-passio text-white border border-white"
-                                            : "text-gray-900"
-                                    }`}
+                                    className={`px-2 py-1 rounded group-hover:text-white text-sm transition-colors ${sizeSelections[item.id] === size
+                                        ? "bg-passio text-white border border-white"
+                                        : "text-gray-900"
+                                        }`}
                                 >
                                     {size}
                                 </button>
@@ -161,7 +161,7 @@ const MenuContainer = () => {
                                 onClick={() => handleAddToCart(item)}
                                 className="bg-passio text-white p-2 rounded hover:bg-lime-400 transition group-hover:bg-white group-hover:text-passio"
                             >
-                                <FaShoppingCart size={25}/>
+                                <FaShoppingCart size={25} />
                             </button>
                         </div>
                     </div>
