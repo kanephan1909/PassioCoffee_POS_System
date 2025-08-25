@@ -12,7 +12,7 @@ const zalopay = {
 // Tạo đơn hàng
 const createOrder = async (req, res) => {
   try {
-    const { amount, customerName, tableNo  } = req.body;
+    const { amount, customerName, tableNo } = req.body;
     if (!amount) return res.status(400).json({ message: "Thiếu amount" });
 
     const embed_data = {
@@ -62,50 +62,62 @@ const createOrder = async (req, res) => {
   }
 };
 
-const verifyPayment = async (req, res, next) => {
+const verifyPayment = async (req, res) => {
   try {
-    const { app_trans_id } = req.body;
+    // nhận cả 2 kiểu tên để khỏi lệch FE/BE
+    const app_trans_id =
+      req.body.app_trans_id ||
+      req.body.apptransid ||
+      req.query.app_trans_id ||
+      req.query.apptransid;
 
     if (!app_trans_id) {
       return res
         .status(400)
-        .json({ success: false, message: "Thiếu app_trans_id" });
+        .json({ success: false, message: "Thiếu app_trans_id/apptransid" });
     }
 
-    // Tạo data & MAC
+    // MAC: app_id|app_trans_id|key1
     const data = `${zalopay.app_id}|${app_trans_id}|${zalopay.key1}`;
     const mac = crypto
       .createHmac("sha256", zalopay.key1)
       .update(data)
       .digest("hex");
 
-    const result = await axios.post(zalopay.endpoint, {
-      app_id: zalopay.app_id,
+    // gọi đúng endpoint query + form-urlencoded
+    const formBody = new URLSearchParams({
+      app_id: String(zalopay.app_id),
       app_trans_id,
       mac,
-    });
+    }).toString();
 
-    if (result.data.return_code === 1) {
-      return res.json({
-        success: true,
-        message: "Thanh toán thành công",
-        data: result.data,
-      });
-    } else {
-      return res.json({
-        success: false,
-        message: "Thanh toán chưa thành công",
-        data: result.data,
-      });
-    }
+    const result = await axios.post(
+      "https://sb-openapi.zalopay.vn/v2/query",
+      formBody,
+      { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
+    );
+
+    // return_code === 1: query OK
+    // sub_return_code: 1=success, 2=pending, 3=failed
+    const { return_code, sub_return_code } = result.data;
+    const success = return_code === 1 && sub_return_code === 1;
+
+    return res.json({
+      success,
+      message: success ? "Thanh toán thành công" : "Thanh toán chưa thành công",
+      data: result.data,
+    });
   } catch (error) {
     console.error(
       "Verify payment error:",
       error.response?.data || error.message
     );
-    next(error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Lỗi xác minh thanh toán" });
   }
 };
+
 // const verifyPayment = async (req, res) => {
 //   try {
 //     // Nhận đúng key chuẩn: app_trans_id (fallback: apptransid)

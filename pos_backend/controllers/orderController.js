@@ -1,11 +1,28 @@
 const Order = require("../models/orderModel");
+const Table = require("../models/tableModel");
 
 // Thêm đơn hàng
 const addOrder = async (req, res, next) => {
   try {
-    const order = new Order(req.body);
+    const { table, ...orderData } = req.body;
+
+    // 1. Tạo đơn hàng mới
+    const order = new Order({ ...orderData, table });
     await order.save();
-    res.status(201).json({ success: true, message: "Đơn Hàng Đã Được Tạo", data: order });
+
+    // 2. Update lại table: gắn currentOrder
+    if (table) {
+      await Table.findByIdAndUpdate(table, {
+        currentOrder: order._id,
+        status: "occupied",
+      });
+    }
+
+    res.status(201).json({
+      success: true,
+      message: "Đơn hàng đã được tạo",
+      data: order,
+    });
   } catch (error) {
     next(error);
   }
@@ -16,7 +33,9 @@ const getOrder = async (req, res, next) => {
   try {
     const order = await Order.findById(req.params.id).populate("table");
     if (!order) {
-      return res.status(404).json({ success: false, message: "Không tìm thấy đơn hàng" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Không tìm thấy đơn hàng" });
     }
     res.status(200).json({ success: true, data: order });
   } catch (error) {
@@ -27,7 +46,7 @@ const getOrder = async (req, res, next) => {
 // Lấy tất cả đơn hàng
 const getOrders = async (req, res, next) => {
   try {
-    const orders = await Order.find().sort({ createdAt: -1 }).populate("table"); // Sắp xếp mới nhất lên đầu
+    const orders = await Order.find().sort({ createdAt: -1 }).populate("table");
     res.status(200).json({ success: true, data: orders });
   } catch (error) {
     next(error);
@@ -44,10 +63,18 @@ const updateOrder = async (req, res, next) => {
     );
 
     if (!updatedOrder) {
-      return res.status(404).json({ success: false, message: "Không tìm thấy đơn hàng" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Không tìm thấy đơn hàng" });
     }
 
-    res.status(200).json({ success: true, message: "Cập nhật đơn hàng thành công", data: updatedOrder });
+    res
+      .status(200)
+      .json({
+        success: true,
+        message: "Cập nhật đơn hàng thành công",
+        data: updatedOrder,
+      });
   } catch (error) {
     next(error);
   }
