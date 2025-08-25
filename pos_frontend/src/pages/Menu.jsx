@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { enqueueSnackbar } from 'notistack'
+import { useNavigate } from 'react-router-dom';
+import { useSnackbar } from 'notistack'
 import BackButton from '../components/shared/BackButton'
 import { PiCoffeeBold } from "react-icons/pi";
 import MenuContainer from '../components/menu/MenuContainer';
@@ -11,17 +12,18 @@ import { verifyPaymentZalopay } from '../https/index';
 
 const Menu = () => {
   const query = new URLSearchParams(window.location.search);
-  const app_trans_id = query.get("apptransid"); 
-  const status = query.get("status");          
+  const app_trans_id = query.get("apptransid");
+  const status = query.get("status");
 
-  const customerDate = useSelector(state => state.customer);
+  const customerData = useSelector(state => state.customer);
+  const { enqueueSnackbar } = useSnackbar();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const checkPayment = async () => {
       if (app_trans_id) {
         try {
-          // gọi sang backend xác minh
-          const { data } = await verifyPaymentZalopay({ app_trans_id });
+          const { data } = await verifyPaymentZalopay({ apptransid: app_trans_id });
           if (data.success) {
             enqueueSnackbar("Thanh toán thành công!", { variant: "success" });
             // TODO: gọi API tạo Bill ở đây
@@ -30,11 +32,14 @@ const Menu = () => {
           }
         } catch (err) {
           enqueueSnackbar("Lỗi khi xác thực thanh toán!", { variant: "error" });
+        } finally {
+          // Xóa query string để tránh verify lại khi reload
+          navigate("/menu", { replace: true });
         }
       }
     };
     checkPayment();
-  }, [app_trans_id]);
+  }, [app_trans_id, enqueueSnackbar, navigate]);
 
   return (
     <section className="bg-gray-50 h-[calc(100vh-12rem)] overflow-hidden flex gap-3">
@@ -49,10 +54,10 @@ const Menu = () => {
             <PiCoffeeBold className="text-gray-900 text-5xl" />
             <div>
               <h1 className="text-lg font-semibold text-gray-900">
-                {customerDate.customerName || "Customer Name"}
+                {customerData.customerName || "Customer Name"}
               </h1>
               <p className="text-sm font-medium text-gray-900">
-                Bàn {customerDate.tableNo || "Trống"}
+                Bàn {customerData.tableNo || "Trống"}
               </p>
             </div>
           </div>
