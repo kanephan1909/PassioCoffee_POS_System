@@ -34,8 +34,6 @@ const getTables = async (req, res, next) => {
       select: "customerDetails",
     });
 
-    console.log(JSON.stringify(tables, null, 2));
-
     res.status(200).json({
       success: true,
       message: "Lấy danh sách bàn thành công",

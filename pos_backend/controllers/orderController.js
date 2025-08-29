@@ -1,28 +1,12 @@
 const Order = require("../models/orderModel");
-const Table = require("../models/tableModel");
 
-// Thêm đơn hàng
 const addOrder = async (req, res, next) => {
   try {
-    const { table, ...orderData } = req.body;
-
-    // 1. Tạo đơn hàng mới
-    const order = new Order({ ...orderData, table });
+    const order = new Order(req.body);
     await order.save();
-
-    // 2. Update lại table: gắn currentOrder
-    if (table) {
-      await Table.findByIdAndUpdate(table, {
-        currentOrder: order._id,
-        status: "occupied",
-      });
-    }
-
-    res.status(201).json({
-      success: true,
-      message: "Đơn hàng đã được tạo",
-      data: order,
-    });
+    res
+      .status(201)
+      .json({ success: true, message: "Đơn hàng đã được tạo!", data: order });
   } catch (error) {
     next(error);
   }
@@ -68,16 +52,48 @@ const updateOrder = async (req, res, next) => {
         .json({ success: false, message: "Không tìm thấy đơn hàng" });
     }
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "Cập nhật đơn hàng thành công",
-        data: updatedOrder,
-      });
+    res.status(200).json({
+      success: true,
+      message: "Cập nhật đơn hàng thành công",
+      data: updatedOrder,
+    });
   } catch (error) {
     next(error);
   }
 };
 
-module.exports = { addOrder, getOrder, getOrders, updateOrder };
+// Xóa đơn hàng
+const deleteOrder = async (req, res, next) => {
+  try {
+    const order = await Order.findById(req.params.id);
+
+    if (!order) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Không tìm thấy đơn hàng" });
+    }
+
+    // lưu lại tableId trước khi xoá
+    const tableId = order.table;
+
+    // xoá order
+    await Order.findByIdAndDelete(req.params.id);
+
+    // update table về available
+    if (tableId) {
+      await Table.findByIdAndUpdate(tableId, {
+        status: "Available",
+        currentOrder: null,
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Xoá đơn hàng thành công và bàn đã được cập nhật",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { addOrder, getOrder, getOrders, updateOrder, deleteOrder };
