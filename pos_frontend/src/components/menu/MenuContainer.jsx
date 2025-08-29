@@ -4,15 +4,17 @@ import { GrRadialSelected } from "react-icons/gr";
 import { useDispatch } from 'react-redux';
 import { addItems } from '../../redux/slices/cartSlice';
 import { FaShoppingCart } from 'react-icons/fa';
-import { enqueueSnackbar } from 'notistack';
+import { useSnackbar } from 'notistack';
 
 const MenuContainer = () => {
     const [selectedMenu, setSelectedMenu] = useState(menus[0]);
     const [sizeSelections, setSizeSelections] = useState({});
     const [itemCounts, setItemCounts] = useState({});
     const dispatch = useDispatch();
+    const { enqueueSnackbar } = useSnackbar();
 
-    // ✅ Chọn size cho sản phẩm
+
+    // Chọn size cho sản phẩm
     const handleSizeChange = (id, size) => {
         setSizeSelections((prev) => ({
             ...prev,
@@ -20,7 +22,7 @@ const MenuContainer = () => {
         }));
     };
 
-    // ✅ Tăng số lượng
+    // Tăng số lượng
     const increment = (id) => {
         setItemCounts((prev) => ({
             ...prev,
@@ -28,7 +30,7 @@ const MenuContainer = () => {
         }));
     };
 
-    // ✅ Giảm số lượng
+    // Giảm số lượng
     const decrement = (id) => {
         setItemCounts((prev) => {
             const newCount = (prev[id] || 0) - 1;
@@ -39,7 +41,7 @@ const MenuContainer = () => {
         });
     };
 
-    // ✅ Thêm vào giỏ
+    // Thêm vào giỏ
     const handleAddToCart = (item) => {
         const size = sizeSelections[item.id];
         const quantity = itemCounts[item.id] || 0;

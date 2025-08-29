@@ -7,56 +7,120 @@ import { createOrderZalopay, verifyPaymentZalopay } from '../../https'
 
 const Bill = () => {
   const cartData = useSelector(state => state.cart)
-  const total = useSelector(getTotalPrice) // hiện tại: nghìn đồng
+  const total = useSelector(getTotalPrice); // trả về VND thật luôn
+  const taxRate = 5.25
+  const tax = (total * taxRate) / 100;
+  const totalPriceWithTax = Math.round(total + tax);
 
   // convert sang VND thật
-  const totalVND = total * 1000
-
-  const customerData = useSelector((state) => state.customer)
-
-  const taxRate = 5.25
-  const tax = (totalVND * taxRate) / 100
-  const totalPriceWithTax = Math.round(totalVND + tax)
-
   const totalItems = cartData.reduce((sum, item) => sum + item.quantity, 0)
 
+  const customerData = useSelector((state) => state.customer)
   const [paymentMethod, setPaymentMethod] = useState(null)
+
+  const handleCheckout = async () => {
+    if (!customerData.customerName || !customerData.customerPhone) {
+      enqueueSnackbar("Vui lòng nhập thông tin khách hàng (tên & số điện thoại)", { variant: "warning" });
+      return;
+    }
+
+    if (!customerData.table?.tableId) {
+      enqueueSnackbar("Vui lòng chọn bàn trước khi tạo đơn hàng", { variant: "warning" });
+      return;
+    }
+
+    if (!paymentMethod) {
+      enqueueSnackbar("Vui lòng chọn phương thức thanh toán", { variant: "warning" });
+      return;
+    }
+
+    if (paymentMethod === "cash") {
+      // xử lý cash
+      const orderData = {
+        customerDetails: {
+          name: customerData.customerName,
+          phone: customerData.customerPhone,
+          guests: customerData.guests,
+        },
+        orderStatus: "In Progress",
+        bills: {
+          total: total,
+          tax,
+          totalWithTax: totalPriceWithTax,
+        },
+        items: cartData,
+        table: customerData.table?.tableId,
+        paymentMethod: "cash",
+      };
+
+      console.log("Order Data (Cash):", orderData);
+
+      await saveOrderToDB(orderData); // gọi API lưu đơn hàng
+      enqueueSnackbar("Đơn hàng đã được tạo (Thanh toán tiền mặt)", { variant: "success" });
+    } else {
+      // online -> gọi hàm cũ
+      await handleOnlinePayment();
+    }
+  };
 
 
   const handleOnlinePayment = async () => {
     try {
+      if (!customerData.customerName || !customerData.customerPhone) {
+        enqueueSnackbar("Vui lòng nhập thông tin khách hàng (tên & số điện thoại)", { variant: "warning" });
+        return;
+      }
+
+      if (!customerData.table?.tableId) {
+        enqueueSnackbar("Vui lòng chọn bàn trước khi tạo đơn hàng", { variant: "warning" });
+        return;
+      }
+
       if (!paymentMethod) {
         enqueueSnackbar("Vui lòng chọn phương thức thanh toán", { variant: "warning" });
         return;
       }
 
-      // 1. Tạo order Zalopay
+      // Lưu vào localStorage trước khi redirect
+      localStorage.setItem("customerData", JSON.stringify(customerData));
+      localStorage.setItem("cartData", JSON.stringify(cartData));
+
+
+      // Gọi API tạo giao dịch Zalopay
       const { data } = await createOrderZalopay({
         amount: Math.round(totalPriceWithTax),
-        customer: {
+        customerDetails: {
           name: customerData.customerName,
           phone: customerData.customerPhone,
           guests: customerData.guests,
-          table: customerData.table?.tableId,
         },
+        bills: {
+          total: total,
+          tax,
+          totalWithTax: totalPriceWithTax,
+        },
+        items: cartData.map(item => ({
+          name: item.name,
+          size: item.size,
+          quantity: item.quantity,
+          price: item.price,
+        })),
+        table: customerData.table?.tableId,
       });
+
 
       if (!data || !data.order_url) {
         enqueueSnackbar("Không tạo được đơn hàng Zalopay", { variant: "error" });
         return;
       }
 
-      // 2. Redirect người dùng sang Zalopay
       window.location.href = data.order_url;
-
-      // Sau khi thanh toán, Zalopay redirect về redirecturl mà bạn đã config.
-      // Ở redirect page, bạn cần lấy app_trans_id rồi gọi verifyPaymentZalopay
-
     } catch (error) {
       console.error(error);
       enqueueSnackbar("Lỗi khi tạo đơn hàng ZaloPay", { variant: "error" });
     }
   };
+
 
   const handleVerifyZalopay = async (app_trans_id) => {
     try {
@@ -83,11 +147,19 @@ const Bill = () => {
           paymentMethod: paymentMethod,
           paymentData: {
             app_trans_id,
-            zp_trans_id: verification.data.data?.zp_trans_id, 
+            zp_trans_id: verification.data.data?.zp_trans_id,
           },
         };
 
         console.log("Order Data:", orderData);
+
+        await saveOrderToDB(orderData); // API lưu DB
+
+        enqueueSnackbar("Thanh toán thành công, đơn hàng đã tạo!", { variant: "success" });
+
+        localStorage.setItem("paymentVerified", "true");
+        localStorage.removeItem("cartData");
+        localStorage.removeItem("customerData");
       }
     } catch (error) {
       console.error(error);
@@ -100,10 +172,10 @@ const Bill = () => {
       {/* Item tổng */}
       <div className='flex items-center justify-between px-5 mt-2'>
         <p className='text-sm text-gray-900 font-medium mt-2'>
-          Item({totalItems})
+          Tổng Món({totalItems})
         </p>
         <h1 className='text-gray-900 text-sm font-bold'>
-          {formatVND(totalVND / 1000)}
+          {formatVND(total)}
         </h1>
       </div>
 
@@ -111,7 +183,7 @@ const Bill = () => {
       <div className='flex items-center justify-between px-5 mt-2'>
         <p className='text-sm text-gray-900 font-medium mt-2'>Tax(5.25%)</p>
         <h1 className='text-gray-900 text-sm font-bold'>
-          {formatVND(tax / 1000)}
+          {formatVND(tax)}
         </h1>
       </div>
 
@@ -119,7 +191,7 @@ const Bill = () => {
       <div className='flex items-center justify-between px-5 mt-2'>
         <p className='text-sm text-gray-900 font-medium mt-2'>Total with tax</p>
         <h1 className='text-gray-900 text-sm font-bold'>
-          {formatVND(totalPriceWithTax / 1000)}
+          {formatVND(totalPriceWithTax)}
         </h1>
       </div>
 
@@ -132,7 +204,7 @@ const Bill = () => {
             : "border-gray-500 text-gray-900"
             }`}
         >
-          Cash
+          Tiền Mặt
         </button>
         <button
           onClick={() => setPaymentMethod("online")}
@@ -141,7 +213,7 @@ const Bill = () => {
             : "border-gray-500 text-gray-900"
             }`}
         >
-          Online
+          Chuyển Khoản
         </button>
       </div>
 
@@ -151,10 +223,10 @@ const Bill = () => {
           In Bill
         </button>
         <button
-          onClick={paymentMethod === "online" ? handleOnlinePayment : () => enqueueSnackbar("Đơn hàng đã được đặt (Cash)", { variant: "success" })}
+          onClick={handleCheckout}
           className='bg-yellow-500 border border-gray-100 px-4 py-3 w-full rounded-lg text-white font-semibold text-lg'
         >
-          Place Order
+          Thanh Toán
         </button>
       </div>
     </>

@@ -1,9 +1,18 @@
 const Order = require("../models/orderModel");
+const Table = require("../models/tableModel"); 
 
 const addOrder = async (req, res, next) => {
   try {
     const order = new Order(req.body);
     await order.save();
+
+    if (order.table) {
+      await Table.findByIdAndUpdate(order.table, {
+        status: "Booked",
+        currentOrder: order._id,
+      });
+    }
+    
     res
       .status(201)
       .json({ success: true, message: "Đơn hàng đã được tạo!", data: order });
@@ -82,7 +91,7 @@ const deleteOrder = async (req, res, next) => {
     // update table về available
     if (tableId) {
       await Table.findByIdAndUpdate(tableId, {
-        status: "Available",
+        status: "available",
         currentOrder: null,
       });
     }
