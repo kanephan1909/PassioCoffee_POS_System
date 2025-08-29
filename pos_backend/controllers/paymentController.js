@@ -18,14 +18,14 @@ const createOrder = async (req, res) => {
     if (!amount) return res.status(400).json({ message: "Thiếu amount" });
 
     // 1. Tạo Order trong DB (pending)
-    const newOrder = new Order({
-      customerDetails,
-      orderStatus: "pending",
-      bills,
-      items,
-      table,
-    });
-    await newOrder.save();
+    // const newOrder = new Order({
+    //   customerDetails,
+    //   orderStatus: "pending",
+    //   bills,
+    //   items,
+    //   table,
+    // });
+    // await newOrder.save();
 
     // 2. Nhúng orderId vào embed_data
     const embed_data = {
@@ -141,7 +141,10 @@ const verifyPayment = async (req, res) => {
       data: result.data,
     });
   } catch (error) {
-    console.error("Verify payment error:", error.response?.data || error.message);
+    console.error(
+      "Verify payment error:",
+      error.response?.data || error.message
+    );
     return res
       .status(500)
       .json({ success: false, message: "Lỗi xác minh thanh toán" });
@@ -168,24 +171,28 @@ const callbackPayment = async (req, res) => {
     const dataJson = JSON.parse(dataStr);
 
     // lưu payment log
-    await Payment.create({
-      paymentId: dataJson.zp_trans_id,
-      orderId: dataJson.app_trans_id,
-      amount: dataJson.amount,
-      currency: "VND",
-      status: "success",
-      method: "ZaloPay",
-      createdAt: new Date(),
+    const existing = await Payment.findOne({
+      paymentId: result.data.zp_trans_id,
     });
-
-    
+    if (!existing) {
+      await Payment.create({
+        paymentId: result.data.zp_trans_id,
+        orderId: app_trans_id,
+        amount: result.data.amount,
+        currency: "VND",
+        status: "success",
+        method: "ZaloPay",
+        createdAt: new Date(),
+      });
+    }
 
     if (dataJson.embed_data) {
       const embedData = JSON.parse(dataJson.embed_data);
-      if (embedData.orderId) {
-        await Order.findByIdAndUpdate(embedData.orderId, {
-          orderStatus: "paid",
-        });
+      if (embedData?.orderId) {
+        await Order.findOneAndUpdate(
+          { _id: embedData.orderId, orderStatus: { $ne: "paid" } },
+          { orderStatus: "paid" }
+        );
       }
     }
 
